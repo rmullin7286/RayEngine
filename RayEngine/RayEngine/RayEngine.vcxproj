@@ -143,18 +143,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="basictypes.h" />
-    <ClInclude Include="map.h" />
+    <ClInclude Include="system.h" />
     <ClInclude Include="view.h" />
-    <ClInclude Include="wall.h" />
-    <ClInclude Include="window.h" />
+    <ClInclude Include="world.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="basictypes.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="map.cpp" />
     <ClCompile Include="view.cpp" />
-    <ClCompile Include="wall.cpp" />
     <ClCompile Include="window.cpp" />
+    <ClCompile Include="world.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

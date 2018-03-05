@@ -1,5 +1,6 @@
 #include "view.h"
 
+/*
 namespace RayEngine
 {
 	Vector2f & View::pos()
@@ -97,3 +98,5 @@ namespace RayEngine
 	}
 
 }
+
+*/

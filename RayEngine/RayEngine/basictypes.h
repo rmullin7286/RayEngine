@@ -1,28 +1,28 @@
 #ifndef BASICTYPES_H
 #define BASICTYPES_H
 
+#include <cstdint>
+
 namespace RayEngine
 {
-	//a struct for 2d vector ints
+	//A basic struct for 2d vectors
+	template <typename T>
 	struct Vector2
 	{
-		int x, y;
+		T x, y;
 	};
 
-	//a struct for 2d vector floats
-	struct Vector2f
+	//A basic struct for RGB color
+	struct ColorRGB
 	{
-		float x, y;
-	};
-
-	class DeltaTime
-	{
-	public:
-		float elapsedTime();
-		float time();
-
-	private:
-		double _oldTime, _time;
+		uint8_t r, g, b;
+		ColorRGB& operator=(const ColorRGB& color)
+		{
+			r = color.r;
+			g = color.g;
+			b = color.b;
+			return *this;
+		}
 	};
 }
 #endif

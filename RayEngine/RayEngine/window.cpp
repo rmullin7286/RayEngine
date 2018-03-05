@@ -13,6 +13,5 @@ namespace RayEngine
 		if (!window)
 			return false;
 		surface = SDL_GetWindowSurface(window);
-		return true;
 	}
 }
