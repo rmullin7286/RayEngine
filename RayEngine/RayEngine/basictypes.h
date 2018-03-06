@@ -10,6 +10,11 @@ namespace RayEngine
 	struct Vector2
 	{
 		T x, y;
+		Vector2<T> & operator=(Vector2<T> &rhs)
+		{
+			x = rhs.x;
+			y = rhs.y;
+		}
 	};
 
 	//A basic struct for RGB color

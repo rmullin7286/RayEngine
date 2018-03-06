@@ -3,21 +3,23 @@
 
 #include "basictypes.h"
 #include <cmath>
+#include <vector>
+#include "world.h"
 
 namespace RayEngine
 {
 	class View
 	{
+		Vector2<float> position;
+		Vector2<float> direction;
+		Vector2<float> plane;
+		Vector2<unsigned int> dimensions;
+		std::vector<std::vector<unsigned int>> buffer;
+
 	public:
-		Vector2f & pos();
-		Vector2f & dir();
-		void project(const Vector2 & screenSize);
-
-
-	private:
-		Vector2f _pos = { 0.0f, 0.0f }; // x and y position in 2d space
-		Vector2f _dir = { 0.0f, 0.0f }; // rotation of the view
-		Vector2f _plane = { 0.0f, 0.66f }; // Field of View for the camera
+		View(unsigned int w, unsigned int h, Vector2<float> position = { 0.0, 0.0 }, Vector2<float> direction = { 0.0, 0.0 });
+		const std::vector<std::vector<unsigned int>> & calculateBuffer(const Map & map) const;
+		void setPos(Vector2<float> position);
 	};
 
 }

@@ -7,13 +7,12 @@ namespace RayEngine
 {
 	class Time
 	{
-		uint32_t startTime;
+		uint32_t milliseconds;
 
 	public:
-		Time(uint32_t init = 0);
+		Time(uint32_t init=0);
 		uint32_t asMilliseconds();
-		uint32_t asSeconds();
-		Time operator+(const Time & rhs);
+		double asSeconds();
 		Time operator-(const Time & rhs);
 		Time & operator=(const Time & rhs);
 	};
@@ -23,9 +22,20 @@ namespace RayEngine
 		Time oldTime;
 
 	public:
-		Delta();
+		Delta() = default;
 		Time getElapsedTime();
 		Time restart();
+	};
+
+	class Window
+	{
+		unsigned int w, h;
+		bool isOpen;
+
+	public:
+		Window(unsigned int w, unsigned int h);
+		bool open();
+		bool close();
 	};
 }
 

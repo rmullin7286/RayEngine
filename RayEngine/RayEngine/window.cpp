@@ -1,5 +1,5 @@
-#include "window.h"
-namespace RayEngine
+//#include "window.h"
+/*namespace RayEngine
 {
 	bool Window::init(int w, int h, const string &name, int x_center, int y_center)
 	{
@@ -14,4 +14,4 @@ namespace RayEngine
 			return false;
 		surface = SDL_GetWindowSurface(window);
 	}
-}
+}*/
