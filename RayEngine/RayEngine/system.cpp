@@ -40,14 +40,35 @@ namespace RayEngine
 		return deltaTime;
 	}
 
-	Window::Window(unsigned int w, unsigned int h, const std::string & name, bool open=true)
-		: name(name), w(w), h(h)
+	Window::Window(unsigned int w, unsigned int h, const std::string & name)
+		: name(name), w(w), h(h){}
+		
+	
+	void Window::open(int x, int y, int windowFlag)
 	{
-		if (open)
+		if(!isOpen)
 		{
-			if (!SDL_WasInit(SDL_INIT_EVERYTHING))
-				isOpen = SDL_Init(SDL_INIT_EVERYTHING) < 0;
+			if(!SDL_WasInit(SDL_INIT_EVERYTHING) && !SDL_Init(SDL_INIT_EVERYTHING))
+				throw SDLException("Could not initialize SDL");
+			windowPtr = SDL_CreateWindow(name.c_str(), x, y, w, h, windowFlag);
+			isOpen = windowPtr != nullptr;
+			if(!isOpen)
+				throw SDLException("Could not create window");
 		}
 	}
-
+	
+	void Window::close()
+	{
+		if(isOpen)
+		{
+			SDL_DestroyWindow(windowPtr);
+			isOpen = false;
+		}
+	}
+	
+	Window::~Window()
+	{
+		if(isOpen)
+			close();
+	}
 }
