@@ -2,6 +2,7 @@
 #define RAYENGINE_SYSTEM_H
 
 #include <SDL.h>
+#include <string>
 
 namespace RayEngine
 {
@@ -30,10 +31,11 @@ namespace RayEngine
 	class Window
 	{
 		unsigned int w, h;
+		std::string name;
 		bool isOpen;
 
 	public:
-		Window(unsigned int w, unsigned int h);
+		Window(unsigned int w, unsigned int h, const std::string & name, bool open=true);
 		bool open();
 		bool close();
 	};

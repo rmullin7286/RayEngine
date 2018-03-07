@@ -40,4 +40,14 @@ namespace RayEngine
 		return deltaTime;
 	}
 
+	Window::Window(unsigned int w, unsigned int h, const std::string & name, bool open=true)
+		: name(name), w(w), h(h)
+	{
+		if (open)
+		{
+			if (!SDL_WasInit(SDL_INIT_EVERYTHING))
+				isOpen = SDL_Init(SDL_INIT_EVERYTHING) < 0;
+		}
+	}
+
 }
