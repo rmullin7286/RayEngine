@@ -3,23 +3,25 @@
 
 #include "basictypes.h"
 #include <cmath>
-#include <vector>
 #include "world.h"
+#include "system.h"
 
 namespace RayEngine
 {
+
 	class View
 	{
 		Vector2<float> position;
 		Vector2<float> direction;
 		Vector2<float> plane;
-		Vector2<unsigned int> dimensions;
-		std::vector<std::vector<unsigned int>> buffer;
+		Vector2<float> dimensions;
+		DrawBuffer buffer;
 
 	public:
-		View(unsigned int w, unsigned int h, Vector2<float> position = { 0.0, 0.0 }, Vector2<float> direction = { 0.0, 0.0 });
-		const std::vector<std::vector<unsigned int>> & calculateBuffer(const Map & map) const;
+		View(float w, float h, Vector2<float> position = { 0.0, 0.0 }, Vector2<float> direction = { 0.0, 0.0 });
+		DrawBuffer & calculateBuffer(const Map & map);
 		void setPos(Vector2<float> position);
+		void setDirection(Vector2<float> direction);
 	};
 
 }

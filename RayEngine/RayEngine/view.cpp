@@ -2,7 +2,7 @@
 
 namespace RayEngine
 {
-	RayEngine::View::View(unsigned int w, unsigned int h, Vector2<float> position, Vector2<float> direction) : buffer(w, std::vector<unsigned int>(h))
+	RayEngine::View::View(float w, float h, Vector2<float> position, Vector2<float> direction)
 	{
 		dimensions.x = w;
 		dimensions.y = h;
@@ -10,12 +10,102 @@ namespace RayEngine
 		this->direction = direction;
 	}
 
-	const std::vector<std::vector<unsigned int>>& RayEngine::View::calculateBuffer(const Map & map) const
+	DrawBuffer & RayEngine::View::calculateBuffer(const Map & map)
 	{
+		Wall currentWall;
+
 		//The algorithm loops through every vertical line of pixels in the view
 		for (int x = 0; x < dimensions.x; x++)
 		{
-			
+			//finds an x coordinate for the ray between -1 (left) and 1 (right)
+			float cameraX = 2 * x / dimensions.x - 1;
+			Vector2<float> rayDir = {direction.x + plane.x * cameraX, direction.y + plane.y * cameraX};
+
+			//current space on the map grid
+			Vector2<unsigned int> currentPosition = { (unsigned int)position.x, (unsigned int)position.y };
+
+			//length of ray from current position to next position
+			Vector2<float> sideDistances;
+
+			//length of ray from one x or y to the next
+			Vector2<float> delta = { std::abs(1 / rayDir.x), std::abs(1 / rayDir.y) };
+			float perpWallDist;
+
+			bool hit = false;
+
+			//0 if x side wall, 1 if y
+			int side;
+
+			Vector2<int> step;
+
+			//calculate step and initial sideDist
+			if (rayDir.x < 0)
+			{
+				step.x = -1;
+				sideDistances.x = (position.x - currentPosition.x) * delta.x;
+			}
+			else
+			{
+				step.x = 1;
+				sideDistances.x = (currentPosition.x + 1.0f - position.x) * delta.x;
+			}
+			if (rayDir.y < 0)
+			{
+				step.y = -1;
+				sideDistances.y = (position.y - currentPosition.y) * delta.y;
+			}
+			else
+			{
+				step.y = -1;
+				sideDistances.y = (currentPosition.y + 1.0f - position.y) * delta.y;
+			}
+
+			//perform DDA algorithm
+			auto bounds = map.size();
+			while (!hit && currentPosition.x <= bounds.x && currentPosition.y <= bounds.y)
+			{
+				if (sideDistances.x < sideDistances.y)
+				{
+					sideDistances.x += delta.x;
+					currentPosition.x += step.x;
+					side = 0;
+				}
+				else
+				{
+					sideDistances.y += delta.y;
+					currentPosition.y += step.y;
+					side = 1;
+				}
+				//check if ray has hit wall
+				if (map.tryFindWall(currentPosition.x, currentPosition.y, currentWall))
+					hit = true;
+			}
+
+			if (hit)
+			{
+				perpWallDist = side == 0 ? ((currentPosition.x - position.x + (1 - step.x) / 2) / rayDir.x) : ((currentPosition.y - position.y + (1 - step.y) / 2) / rayDir.y);
+				
+				//height of line to draw on screen
+				int lineHeight = (int)(dimensions.y / perpWallDist);
+
+				//calculate lowest and highest pixels
+				int drawStart = (int)(-lineHeight / 2 + dimensions.y / 2);
+				if (drawStart < 0) drawStart = 0;
+				int drawEnd = (int)(lineHeight / 2 + dimensions.y / 2);
+				if (drawEnd >= dimensions.y) drawEnd = (int)dimensions.y - 1;
+
+				buffer.push_back({ drawStart, drawEnd, currentWall.getColor() });
+			}
 		}
+
+		return buffer;
+	}
+	void View::setPos(Vector2<float> position)
+	{
+		this->position = position;
+	}
+	void View::setDirection(Vector2<float> direction)
+	{
+		this->direction = direction;
 	}
 }

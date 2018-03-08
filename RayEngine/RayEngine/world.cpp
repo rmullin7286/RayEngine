@@ -35,14 +35,9 @@ namespace RayEngine
 		_size.y = y;
 	}
 
-	Vector2<unsigned int> Map::size()
+	Vector2<unsigned int> Map::size() const
 	{
 		return _size;
-	}
-
-	void Map::loadFromFile(const std::string & filePath)
-	{
-		return;
 	}
 
 	void Map::addWall(unsigned int x, unsigned int y, const Wall & newWall)
@@ -64,4 +59,15 @@ namespace RayEngine
 		return true;
 	}
 
+	bool Map::tryFindWall(unsigned int x, unsigned int y, Wall & wall) const
+	{
+		auto i = wallMap.find(x);
+		if (i == wallMap.end())
+			return false;
+		auto j = i->second.find(y);
+		if (j == i->second.end())
+			return false;
+		wall = j->second;
+		return true;
+	}
 }

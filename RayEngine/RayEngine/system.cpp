@@ -6,12 +6,12 @@ namespace RayEngine
 		milliseconds = init == 0 ? SDL_GetTicks() : init;
 	}
 
-	uint32_t Time::asMilliseconds()
+	uint32_t Time::asMilliseconds() const
 	{
 		return milliseconds;
 	}
 
-	double Time::asSeconds()
+	double Time::asSeconds() const
 	{
 		return (double)milliseconds / 1000.0;
 	}
@@ -63,6 +63,14 @@ namespace RayEngine
 		{
 			SDL_DestroyWindow(windowPtr);
 			isOpen = false;
+		}
+	}
+
+	void Window::drawBuffer(const DrawBuffer & buffer)
+	{
+		for (auto &line : buffer)
+		{
+			SDL_SetRenderDrawColor(renderPtr, line.color.r, line.color.g, line.color.b, 255);
 		}
 	}
 	

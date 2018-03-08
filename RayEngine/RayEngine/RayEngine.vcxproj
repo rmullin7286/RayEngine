@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="basictypes.h" />
+    <ClInclude Include="rayengine.h" />
     <ClInclude Include="system.h" />
     <ClInclude Include="view.h" />
     <ClInclude Include="world.h" />
@@ -153,6 +154,9 @@
     <ClCompile Include="view.cpp" />
     <ClCompile Include="window.cpp" />
     <ClCompile Include="world.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="samplemap.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

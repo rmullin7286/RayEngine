@@ -27,6 +27,9 @@
     <ClInclude Include="system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rayengine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="view.cpp">
@@ -44,5 +47,10 @@
     <ClCompile Include="system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="samplemap.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
