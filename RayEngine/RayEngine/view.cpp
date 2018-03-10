@@ -12,11 +12,12 @@ namespace RayEngine
 
 	DrawBuffer & RayEngine::View::calculateBuffer(const Map & map)
 	{
-		Wall currentWall;
-
 		//The algorithm loops through every vertical line of pixels in the view
 		for (int x = 0; x < dimensions.x; x++)
-		{
+		{	
+			//this will be used to store walls returned from map.findWall()
+			std::optional<Wall> wall;
+
 			//finds an x coordinate for the ray between -1 (left) and 1 (right)
 			float cameraX = 2 * x / dimensions.x - 1;
 			Vector2<float> rayDir = {direction.x + plane.x * cameraX, direction.y + plane.y * cameraX};
@@ -76,8 +77,9 @@ namespace RayEngine
 					currentPosition.y += step.y;
 					side = 1;
 				}
+				wall = map.findWall(currentPosition.x, currentPosition.y);
 				//check if ray has hit wall
-				if (map.tryFindWall(currentPosition.x, currentPosition.y, currentWall))
+				if (wall)
 					hit = true;
 			}
 
@@ -94,7 +96,7 @@ namespace RayEngine
 				int drawEnd = (int)(lineHeight / 2 + dimensions.y / 2);
 				if (drawEnd >= dimensions.y) drawEnd = (int)dimensions.y - 1;
 
-				buffer.push_back({ drawStart, drawEnd, currentWall.getColor() });
+				buffer.push_back({ drawStart, drawEnd, wall.value().getColor()});
 			}
 		}
 

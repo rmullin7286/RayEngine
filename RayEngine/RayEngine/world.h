@@ -4,6 +4,7 @@
 #include "basictypes.h"
 #include <unordered_map>
 #include <string>
+#include <optional>
 
 namespace RayEngine
 {
@@ -30,7 +31,7 @@ namespace RayEngine
 		Vector2<unsigned int> size() const;
 		void addWall(unsigned int x, unsigned int y, const Wall & newWall);
 		bool removeWall(unsigned int x, unsigned int y);
-		bool tryFindWall(unsigned int x, unsigned int y, Wall &wall) const;
+		std::optional<Wall> findWall(unsigned int x, unsigned int y) const;
 	};
 }
 

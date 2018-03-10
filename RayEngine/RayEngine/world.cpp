@@ -59,15 +59,14 @@ namespace RayEngine
 		return true;
 	}
 
-	bool Map::tryFindWall(unsigned int x, unsigned int y, Wall & wall) const
+	std::optional<Wall> Map::findWall(unsigned int x, unsigned int y) const
 	{
 		auto i = wallMap.find(x);
 		if (i == wallMap.end())
-			return false;
+			return {};
 		auto j = i->second.find(y);
 		if (j == i->second.end())
-			return false;
-		wall = j->second;
-		return true;
+			return {};
+		return {j->second};
 	}
 }
