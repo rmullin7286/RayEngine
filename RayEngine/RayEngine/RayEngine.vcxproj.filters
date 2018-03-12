@@ -30,6 +30,9 @@
     <ClInclude Include="rayengine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="events.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="view.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

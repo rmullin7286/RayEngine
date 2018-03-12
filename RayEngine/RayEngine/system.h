@@ -47,6 +47,7 @@ namespace RayEngine
 		bool isOpen;
 		SDL_Window * windowPtr;
 		SDL_Renderer * renderPtr;
+		Uint32 ID;
 
 	public:
 		Window(unsigned int w, unsigned int h, const std::string & name);
@@ -55,6 +56,7 @@ namespace RayEngine
 		void close();
 		void drawBuffer(const DrawBuffer & buffer);
 		void clear(const ColorRGB & color = RGB_Black);
+		Uint32 getID();
 	};
 }
 

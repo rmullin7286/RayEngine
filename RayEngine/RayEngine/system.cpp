@@ -55,6 +55,7 @@ namespace RayEngine
 			isOpen = windowPtr != nullptr && renderPtr != nullptr;
 			if(!isOpen)
 				throw SDLException("Could not create window");
+			ID = SDL_GetWindowID(windowPtr);
 		}
 	}
 	
@@ -81,6 +82,11 @@ namespace RayEngine
 	void Window::clear(const ColorRGB & color)
 	{
 		SDL_SetRenderDrawColor(renderPtr, color.r, color.g, color.b, 255);
+	}
+
+	Uint32 Window::getID()
+	{
+		return ID;
 	}
 	
 	Window::~Window()
