@@ -29,6 +29,11 @@ namespace RayEngine
 			b = color.b;
 			return *this;
 		}
+		ColorRGB operator/(const uint8_t& rhs)
+		{
+			if (rhs == 0) return *this;
+			return {uint8_t(r/rhs), uint8_t(g/rhs), uint8_t(b/rhs)};
+		}
 	};
 
 	//some preset colors
@@ -51,7 +56,7 @@ namespace RayEngine
 
 	struct Line
 	{
-		int start, end;
+		Vector2<int> start, end;
 		ColorRGB color;
 	};
 }

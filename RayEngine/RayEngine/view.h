@@ -22,6 +22,8 @@ namespace RayEngine
 		DrawBuffer & calculateBuffer(const Map & map);
 		void setPos(Vector2<float> position);
 		void setDirection(Vector2<float> direction);
+		Vector2<float> getPos() const;
+		Vector2<float> getDir() const;
 	};
 
 }

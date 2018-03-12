@@ -8,6 +8,8 @@ namespace RayEngine
 		dimensions.y = h;
 		this->position = position;
 		this->direction = direction;
+		plane.x = 0.0f;
+		plane.y = 0.66f;
 	}
 
 	DrawBuffer & RayEngine::View::calculateBuffer(const Map & map)
@@ -23,7 +25,7 @@ namespace RayEngine
 			Vector2<float> rayDir = {direction.x + plane.x * cameraX, direction.y + plane.y * cameraX};
 
 			//current space on the map grid
-			Vector2<unsigned int> currentPosition = { (unsigned int)position.x, (unsigned int)position.y };
+			Vector2<int> currentPosition = { position.x, position.y };
 
 			//length of ray from current position to next position
 			Vector2<float> sideDistances;
@@ -57,7 +59,7 @@ namespace RayEngine
 			}
 			else
 			{
-				step.y = -1;
+				step.y = 1;
 				sideDistances.y = (currentPosition.y + 1.0f - position.y) * delta.y;
 			}
 
@@ -85,8 +87,11 @@ namespace RayEngine
 
 			if (hit)
 			{
-				perpWallDist = side == 0 ? ((currentPosition.x - position.x + (1 - step.x) / 2) / rayDir.x) : ((currentPosition.y - position.y + (1 - step.y) / 2) / rayDir.y);
-				
+				if (side == 0)
+					perpWallDist = (currentPosition.x - position.x + (1 - step.x) / 2) / rayDir.x;
+				else
+					perpWallDist = (currentPosition.y - position.y + (1 - step.y) / 2) / rayDir.y;
+
 				//height of line to draw on screen
 				int lineHeight = (int)(dimensions.y / perpWallDist);
 
@@ -95,8 +100,13 @@ namespace RayEngine
 				if (drawStart < 0) drawStart = 0;
 				int drawEnd = (int)(lineHeight / 2 + dimensions.y / 2);
 				if (drawEnd >= dimensions.y) drawEnd = (int)dimensions.y - 1;
+				
+				Vector2<int> drawStartVec = { x, drawStart }, drawEndVec = {x, drawEnd};
 
-				buffer.push_back({ drawStart, drawEnd, wall.value().getColor()});
+				ColorRGB color = wall.value().getColor();
+				if (side == 1)
+					color = color / 2;
+				buffer.push_back({ drawStartVec, drawEndVec, color});
 			}
 		}
 
@@ -109,5 +119,16 @@ namespace RayEngine
 	void View::setDirection(Vector2<float> direction)
 	{
 		this->direction = direction;
+		//The plane is always perpendicular to the view
+		this->plane.x = direction.y;
+		this->plane.y = -direction.x * 0.66;
+	}
+	Vector2<float> View::getPos() const
+	{
+		return position;
+	}
+	Vector2<float> View::getDir() const
+	{
+		return direction;
 	}
 }

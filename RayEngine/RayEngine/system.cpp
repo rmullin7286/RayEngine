@@ -41,17 +41,18 @@ namespace RayEngine
 	}
 
 	Window::Window(unsigned int w, unsigned int h, const std::string & name)
-		: name(name), w(w), h(h){}
+		: name(name), w(w), h(h), isOpen(false){}
 		
 	
 	void Window::open(int x, int y, int windowFlag)
 	{
 		if(!isOpen)
 		{
-			if(!SDL_WasInit(SDL_INIT_EVERYTHING) && !SDL_Init(SDL_INIT_EVERYTHING))
+			if(!SDL_WasInit(SDL_INIT_EVERYTHING) && SDL_Init(SDL_INIT_EVERYTHING) != 0)
 				throw SDLException("Could not initialize SDL");
 			windowPtr = SDL_CreateWindow(name.c_str(), x, y, w, h, windowFlag);
-			isOpen = windowPtr != nullptr;
+			renderPtr = SDL_CreateRenderer(windowPtr, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			isOpen = windowPtr != nullptr && renderPtr != nullptr;
 			if(!isOpen)
 				throw SDLException("Could not create window");
 		}
@@ -71,7 +72,15 @@ namespace RayEngine
 		for (auto &line : buffer)
 		{
 			SDL_SetRenderDrawColor(renderPtr, line.color.r, line.color.g, line.color.b, 255);
+			SDL_RenderDrawLine(renderPtr, line.start.x, line.start.y, line.end.x, line.end.y);
 		}
+
+		SDL_RenderPresent(renderPtr);
+	}
+
+	void Window::clear(const ColorRGB & color)
+	{
+		SDL_SetRenderDrawColor(renderPtr, color.r, color.g, color.b, 255);
 	}
 	
 	Window::~Window()
