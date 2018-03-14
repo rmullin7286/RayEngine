@@ -65,15 +65,6 @@ int main(int argc, char *argv[])
 	{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 	};
 
-	loadMap(map, worldMap);
 
-	
-	while (true)
-	{
-		view.setPos({ 22, 12 });
-		view.setDirection({ -1, 0});
-		window.open();
-		window.drawBuffer(view.calculateBuffer(map));
-	}
 	return 0;
 }

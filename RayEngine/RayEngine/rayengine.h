@@ -5,5 +5,6 @@
 #include "system.h"
 #include "view.h"
 #include "world.h"
+#include "events.h"
 
 #endif
